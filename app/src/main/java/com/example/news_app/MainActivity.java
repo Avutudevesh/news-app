@@ -7,11 +7,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
 
+import com.example.news_app.article.ArticleActivity;
 import com.example.news_app.models.NewsData;
 import com.example.news_app.view.NewsAdapter;
 import com.example.news_app.view.NewsListDiffCallback;
@@ -41,17 +39,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(ArrayList<NewsData> newsData) {
                 adapter.submitList(newsData);
-                Log.d("TestActivity", Integer.toString(newsData.size()));
+            }
+        };
+        final Observer<String> clickObserver = new Observer<String>() {
+            @Override
+            public void onChanged(String url) {
+                startActivity(ArticleActivity.getStartIntent(getApplicationContext(), url));
             }
         };
         viewModel.getNewsDataLiveData().observe(this, newsObserver);
+        viewModel.getClickedNewsArticleLiveData().observe(this, clickObserver);
         viewModel.fetchNewsData();
     }
 
     private void setUpRecyclerView() {
         newsList = findViewById(R.id.news_list);
         diffCallback = new NewsListDiffCallback();
-        adapter = new NewsAdapter(diffCallback);
+        adapter = new NewsAdapter(diffCallback, viewModel);
         newsList.setAdapter(adapter);
     }
 

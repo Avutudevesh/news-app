@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.example.news_app.R;
 import com.example.news_app.models.NewsData;
+import com.example.news_app.viewmodel.MainActivityViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -13,8 +14,11 @@ import androidx.recyclerview.widget.ListAdapter;
 
 public class NewsAdapter extends ListAdapter<NewsData, NewsViewHolder> {
 
-    public NewsAdapter(@NonNull DiffUtil.ItemCallback<NewsData> diffCallback) {
+    private MainActivityViewModel viewModel;
+
+    public NewsAdapter(@NonNull DiffUtil.ItemCallback<NewsData> diffCallback, MainActivityViewModel viewModel) {
         super(diffCallback);
+        this.viewModel = viewModel;
     }
 
 
@@ -29,6 +33,6 @@ public class NewsAdapter extends ListAdapter<NewsData, NewsViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
         NewsData item = getItem(position);
-        holder.bind(item);
+        holder.bind(item, viewModel);
     }
 }
