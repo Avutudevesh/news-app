@@ -11,9 +11,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 public class NewsRepository extends AsyncTask<String, Integer, String> {
 
-    private String BASE_URL = "https://candidate-test-data-moengage.s3.amazonaws.com/Android/news-api-feed/staticResponse.json";
+    private final String BASE_URL = "https://candidate-test-data-moengage.s3.amazonaws.com/Android/news-api-feed/staticResponse.json";
+    private MutableLiveData<ArrayList<NewsData>> newsDataLiveData = new MutableLiveData<>();
+
+    public LiveData<ArrayList<NewsData>> getNewsDataLiveData() {
+        return newsDataLiveData;
+    }
 
     @Override
     protected String doInBackground(String... params) {
@@ -28,8 +36,9 @@ public class NewsRepository extends AsyncTask<String, Integer, String> {
         try {
             JSONObject jsonObject = new JSONObject(result);
             ArrayList<NewsData> newsData = NewsApiResponseParser.parse(jsonObject);
-
+            newsDataLiveData.postValue(newsData);
         } catch (Exception e) {
+            newsDataLiveData.postValue(new ArrayList<NewsData>());
             e.printStackTrace();
         }
     }
