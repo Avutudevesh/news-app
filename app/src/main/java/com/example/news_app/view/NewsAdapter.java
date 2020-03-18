@@ -22,7 +22,7 @@ public class NewsAdapter extends ListAdapter<NewsData, NewsViewHolder> {
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.activity_main, parent, false);
+        View view = layoutInflater.inflate(R.layout.news_item, parent, false);
         return new NewsViewHolder(view);
     }
 
