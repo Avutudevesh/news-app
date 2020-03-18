@@ -10,6 +10,7 @@ import com.example.news_app.network.RequestPackage;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -40,6 +41,22 @@ public class NewsRepository extends AsyncTask<String, Integer, String> {
         } catch (Exception e) {
             newsDataLiveData.postValue(new ArrayList<NewsData>());
             e.printStackTrace();
+        }
+    }
+
+    public void sortOldToNew() {
+        ArrayList<NewsData> list = newsDataLiveData.getValue();
+        if (list != null) {
+            Collections.sort(list, NewsData.publishDateComparator);
+            newsDataLiveData.postValue(list);
+        }
+    }
+
+    public void sortNewToOld() {
+        ArrayList<NewsData> list = newsDataLiveData.getValue();
+        if (list != null) {
+            Collections.sort(list, NewsData.publishDateReverseComparator);
+            newsDataLiveData.postValue(list);
         }
     }
 }

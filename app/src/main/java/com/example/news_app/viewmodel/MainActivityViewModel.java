@@ -32,4 +32,12 @@ public class MainActivityViewModel extends ViewModel {
     public void setClickedNewsArticle(String url) {
         clickedNewsArticle.postValue(url);
     }
+
+    public void sortOldToNew() {
+        repository.sortOldToNew();
+    }
+
+    public void sortNewToOld() {
+        repository.sortNewToOld();
+    }
 }

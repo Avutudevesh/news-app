@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.news_app.article.ArticleActivity;
 import com.example.news_app.models.NewsData;
@@ -62,5 +65,27 @@ public class MainActivity extends AppCompatActivity {
     private void setUpActionBar() {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.old_to_new:
+                viewModel.sortOldToNew();
+                return true;
+            case R.id.new_to_old:
+                viewModel.sortNewToOld();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

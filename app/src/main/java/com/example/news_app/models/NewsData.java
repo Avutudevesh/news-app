@@ -1,6 +1,7 @@
 package com.example.news_app.models;
 
 
+import java.util.Comparator;
 import java.util.Date;
 
 public class NewsData {
@@ -58,4 +59,18 @@ public class NewsData {
     public void setPublishedAt(Date publishedAt) {
         this.publishedAt = publishedAt;
     }
+
+    public static Comparator<NewsData> publishDateComparator = new Comparator<NewsData>() {
+        @Override
+        public int compare(NewsData newsData1, NewsData newsData2) {
+            return newsData1.getPublishedAt().compareTo(newsData2.publishedAt);
+        }
+    };
+
+    public static Comparator<NewsData> publishDateReverseComparator = new Comparator<NewsData>() {
+        @Override
+        public int compare(NewsData newsData1, NewsData newsData2) {
+            return newsData2.getPublishedAt().compareTo(newsData1.publishedAt);
+        }
+    };
 }
