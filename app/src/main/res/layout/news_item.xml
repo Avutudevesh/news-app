@@ -20,6 +20,15 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic"
         android:foreground="@drawable/gradient_background"/>
 
+    <ImageButton
+        android:id="@+id/pop_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pop_menu"
+        android:padding="8dp"
+        android:background="@null"
+        android:layout_gravity="right"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,14 +72,6 @@
                 android:textColor="#bababa"
                 android:textSize="12sp"
                 tools:text="description" />
-
-            <ImageButton
-                android:id="@+id/pop_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/pop_menu"
-                android:paddingLeft="8dp"
-                android:background="@null" />
 
         </LinearLayout>
 
