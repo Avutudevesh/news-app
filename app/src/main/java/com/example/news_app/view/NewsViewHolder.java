@@ -1,6 +1,7 @@
 package com.example.news_app.view;
 
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,14 +16,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 class NewsViewHolder extends RecyclerView.ViewHolder {
 
+    public interface SaveArticleCallBack {
+        void onSaveArticleClicked(NewsData data);
+    }
+
     NewsViewHolder(@NonNull View itemView) {
         super(itemView);
+    }
+
+    private SaveArticleCallBack callBack = null;
+
+    public void setCallBack(SaveArticleCallBack callBack) {
+        this.callBack = callBack;
     }
 
     private TextView source = itemView.findViewById(R.id.source);
     private TextView title = itemView.findViewById(R.id.title);
     private TextView publishDate = itemView.findViewById(R.id.publish_date);
     private ImageView newsImage = itemView.findViewById(R.id.headline_image);
+    private ImageButton saveImageButton = itemView.findViewById(R.id.saveButton);
 
     void bind(final NewsData data, final MainActivityViewModel viewModel) {
         source.setText(data.getSource().getName());
@@ -33,6 +45,12 @@ class NewsViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 viewModel.setClickedNewsArticle(data.getUrl());
+            }
+        });
+        saveImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callBack.onSaveArticleClicked(data);
             }
         });
     }

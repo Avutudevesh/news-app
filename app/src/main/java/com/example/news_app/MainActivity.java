@@ -22,7 +22,7 @@ import com.example.news_app.viewmodel.MainActivityViewModel;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewsAdapter.CallBack {
 
     private RecyclerView newsList;
     private MainActivityViewModel viewModel;
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         newsList = findViewById(R.id.news_list);
         diffCallback = new NewsListDiffCallback();
         adapter = new NewsAdapter(diffCallback, viewModel);
+        adapter.setCallBack(this);
         newsList.setAdapter(adapter);
     }
 
@@ -125,11 +126,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void saveArticleToDB(NewsData data) {
-        DBTask task = new DBTask(dataSource, DBTask.Task.DATABASE_ADD, data);
-        viewModel.performDBOperation(task);
-    }
-
     private void deleteArticleFromDB(NewsData data) {
         DBTask task = new DBTask(dataSource, DBTask.Task.DATABASE_DELETE, data);
         viewModel.performDBOperation(task);
@@ -150,5 +146,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         dataSource.close();
         super.onPause();
+    }
+
+    @Override
+    public void onSaveArticleClicked(NewsData data) {
+        DBTask task = new DBTask(dataSource, DBTask.Task.DATABASE_ADD, data);
+        viewModel.performDBOperation(task);
     }
 }

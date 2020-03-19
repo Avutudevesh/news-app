@@ -64,6 +64,14 @@
                 android:textSize="12sp"
                 tools:text="description" />
 
+            <ImageButton
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/save"
+                android:paddingLeft="8dp"
+                android:background="@null"/>
+
         </LinearLayout>
     </LinearLayout>
 

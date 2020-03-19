@@ -1,5 +1,6 @@
 package com.example.news_app.view;
 
+import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
-public class NewsAdapter extends ListAdapter<NewsData, NewsViewHolder> {
+public class NewsAdapter extends ListAdapter<NewsData, NewsViewHolder> implements NewsViewHolder.SaveArticleCallBack {
+
+    public interface CallBack {
+        public void onSaveArticleClicked(NewsData data);
+    }
 
     private MainActivityViewModel viewModel;
+    private CallBack callBack = null;
+
+    public void setCallBack(CallBack callBack) {
+        this.callBack = callBack;
+    }
 
     public NewsAdapter(@NonNull DiffUtil.ItemCallback<NewsData> diffCallback, MainActivityViewModel viewModel) {
         super(diffCallback);
@@ -32,7 +42,13 @@ public class NewsAdapter extends ListAdapter<NewsData, NewsViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
+        holder.setCallBack(this);
         NewsData item = getItem(position);
         holder.bind(item, viewModel);
+    }
+
+    @Override
+    public void onSaveArticleClicked(NewsData data) {
+        callBack.onSaveArticleClicked(data);
     }
 }
