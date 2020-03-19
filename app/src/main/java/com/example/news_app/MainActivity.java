@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
             public void onChanged(List<NewsData> newsData) {
                 if (offlineDataShown) {
                     adapter.submitList(newsData);
+                    adapter.notifyDataSetChanged();
                     viewFlipper.setDisplayedChild(Child.LOADED.ordinal());
                 }
             }
@@ -139,11 +140,11 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
         switch (item.getItemId()) {
             case R.id.old_to_new:
                 viewFlipper.setDisplayedChild(Child.LOADING.ordinal());
-                viewModel.sortOldToNew();
+                viewModel.sortOldToNew(offlineDataShown);
                 return true;
             case R.id.new_to_old:
                 viewFlipper.setDisplayedChild(Child.LOADING.ordinal());
-                viewModel.sortNewToOld();
+                viewModel.sortNewToOld(offlineDataShown);
                 return true;
             case R.id.offline_articles:
                 if (offlineDataShown) {

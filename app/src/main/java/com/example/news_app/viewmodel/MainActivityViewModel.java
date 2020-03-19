@@ -44,19 +44,37 @@ public class MainActivityViewModel extends ViewModel implements NewsRepository.C
         clickedNewsArticle.postValue(url);
     }
 
-    public void sortOldToNew() {
-        List<NewsData> list = newsDataLiveData.getValue();
-        if (list != null) {
-            Collections.sort(list, NewsData.publishDateComparator);
-            newsDataLiveData.postValue(list);
+    public void sortOldToNew(boolean isOffline) {
+        if (isOffline) {
+            List<NewsData> list = dbNewsLiveData.getValue();
+            if (list != null) {
+                Collections.sort(list, NewsData.publishDateComparator);
+                dbNewsLiveData.postValue(list);
+            }
+
+        } else {
+            List<NewsData> list = newsDataLiveData.getValue();
+            if (list != null) {
+                Collections.sort(list, NewsData.publishDateComparator);
+                newsDataLiveData.postValue(list);
+            }
         }
     }
 
-    public void sortNewToOld() {
-        List<NewsData> list = newsDataLiveData.getValue();
-        if (list != null) {
-            Collections.sort(list, NewsData.publishDateReverseComparator);
-            newsDataLiveData.postValue(list);
+    public void sortNewToOld(boolean isOffline) {
+        if (isOffline) {
+            List<NewsData> list = dbNewsLiveData.getValue();
+            if (list != null) {
+                Collections.sort(list, NewsData.publishDateReverseComparator);
+                dbNewsLiveData.postValue(list);
+            }
+
+        } else {
+            List<NewsData> list = newsDataLiveData.getValue();
+            if (list != null) {
+                Collections.sort(list, NewsData.publishDateReverseComparator);
+                newsDataLiveData.postValue(list);
+            }
         }
     }
 
