@@ -10,18 +10,19 @@ import com.example.news_app.network.RequestPackage;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import java.util.List;
 
 public class NewsRepository extends AsyncTask<String, Integer, String> {
 
+    public interface CallBack {
+        void onFetchNewsDataSuccess(List<NewsData> data);
+    }
     private final String BASE_URL = "https://candidate-test-data-moengage.s3.amazonaws.com/Android/news-api-feed/staticResponse.json";
-    private MutableLiveData<ArrayList<NewsData>> newsDataLiveData = new MutableLiveData<>();
+    private CallBack callBack = null;
 
-    public LiveData<ArrayList<NewsData>> getNewsDataLiveData() {
-        return newsDataLiveData;
+
+    public void setCallback(CallBack callback) {
+        this.callBack = callback;
     }
 
     @Override
@@ -37,26 +38,26 @@ public class NewsRepository extends AsyncTask<String, Integer, String> {
         try {
             JSONObject jsonObject = new JSONObject(result);
             ArrayList<NewsData> newsData = NewsApiResponseParser.parse(jsonObject);
-            newsDataLiveData.postValue(newsData);
+            callBack.onFetchNewsDataSuccess(newsData);
         } catch (Exception e) {
-            newsDataLiveData.postValue(new ArrayList<NewsData>());
+            callBack.onFetchNewsDataSuccess(new ArrayList<NewsData>());
             e.printStackTrace();
         }
     }
 
     public void sortOldToNew() {
-        ArrayList<NewsData> list = newsDataLiveData.getValue();
-        if (list != null) {
-            Collections.sort(list, NewsData.publishDateComparator);
-            newsDataLiveData.postValue(list);
-        }
+//        List<NewsData> list = newsDataLiveData.getValue();
+//        if (list != null) {
+//            Collections.sort(list, NewsData.publishDateComparator);
+//            newsDataLiveData.postValue(list);
+//        }
     }
 
     public void sortNewToOld() {
-        ArrayList<NewsData> list = newsDataLiveData.getValue();
-        if (list != null) {
-            Collections.sort(list, NewsData.publishDateReverseComparator);
-            newsDataLiveData.postValue(list);
-        }
+//        List<NewsData> list = newsDataLiveData.getValue();
+//        if (list != null) {
+//            Collections.sort(list, NewsData.publishDateReverseComparator);
+//            newsDataLiveData.postValue(list);
+//        }
     }
 }

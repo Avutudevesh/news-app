@@ -18,20 +18,20 @@ public class NewsDBSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_UTL_TO_IMAGE = "url_to_image";
     public static final String COLUMN_PUBLISHED_AT = "publishedAt";
 
-    private static final String DATABASE_NAME = "commments.db";
+    private static final String DATABASE_NAME = "news.db";
     private static final int DATABASE_VERSION = 1;
 
     //     Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
             + TABLE_NEWS + "( " + COLUMN_ID
             + " text primary key, "
-            + COLUMN_SOURCE_ID + "text not null,"
-            + COLUMN_SOURCE_NAME + "text not null,"
-            + COLUMN_TITLE + "text not null,"
-            + COLUMN_DESCRIPTION + "text not null,"
-            + COLUMN_URL + "text not null,"
-            + COLUMN_UTL_TO_IMAGE + "text not null,"
-            + COLUMN_PUBLISHED_AT + "text not null,"
+            + COLUMN_SOURCE_ID + " text not null,"
+            + COLUMN_SOURCE_NAME + " text not null,"
+            + COLUMN_TITLE + " text not null,"
+            + COLUMN_DESCRIPTION + " text not null,"
+            + COLUMN_URL + " text not null,"
+            + COLUMN_UTL_TO_IMAGE + " text not null,"
+            + COLUMN_PUBLISHED_AT
             + " text not null);";
 
     public NewsDBSQLiteHelper(Context context) {

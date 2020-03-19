@@ -13,12 +13,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.news_app.article.ArticleActivity;
+import com.example.news_app.db.DBTask;
+import com.example.news_app.db.NewsDataSource;
 import com.example.news_app.models.NewsData;
 import com.example.news_app.view.NewsAdapter;
 import com.example.news_app.view.NewsListDiffCallback;
 import com.example.news_app.viewmodel.MainActivityViewModel;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,10 +28,13 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel viewModel;
     private NewsAdapter adapter;
     DiffUtil.ItemCallback<NewsData> diffCallback;
+    NewsDataSource dataSource;
+    private boolean offlineDataShown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dataSource = new NewsDataSource(this);
         setContentView(R.layout.activity_main);
         setUpViewModel();
         setUpRecyclerView();
@@ -38,10 +43,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpViewModel() {
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-        final Observer<ArrayList<NewsData>> newsObserver = new Observer<ArrayList<NewsData>>() {
+        final Observer<List<NewsData>> newsObserver = new Observer<List<NewsData>>() {
             @Override
-            public void onChanged(ArrayList<NewsData> newsData) {
+            public void onChanged(List<NewsData> newsData) {
                 adapter.submitList(newsData);
+            }
+        };
+        final Observer<List<NewsData>> offlineNewsObserver = new Observer<List<NewsData>>() {
+            @Override
+            public void onChanged(List<NewsData> newsData) {
+                if (offlineDataShown) {
+                    adapter.submitList(newsData);
+                }
             }
         };
         final Observer<String> clickObserver = new Observer<String>() {
@@ -51,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         viewModel.getNewsDataLiveData().observe(this, newsObserver);
+        viewModel.getDbNewsLiveData().observe(this, offlineNewsObserver);
         viewModel.getClickedNewsArticleLiveData().observe(this, clickObserver);
         viewModel.fetchNewsData();
     }
@@ -75,6 +89,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.offline_articles);
+        if (offlineDataShown) {
+            item.setTitle("Go Online");
+        } else {
+            item.setTitle("Show Offline Articles");
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
@@ -84,8 +109,46 @@ public class MainActivity extends AppCompatActivity {
             case R.id.new_to_old:
                 viewModel.sortNewToOld();
                 return true;
+            case R.id.offline_articles:
+                if (offlineDataShown) {
+                    viewModel.fetchNewsData();
+                    offlineDataShown = false;
+                    invalidateOptionsMenu();
+                } else {
+                    fetchOfflineData();
+                    offlineDataShown = true;
+                    invalidateOptionsMenu();
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void saveArticleToDB(NewsData data) {
+        DBTask task = new DBTask(dataSource, DBTask.Task.DATABASE_ADD, data);
+        viewModel.performDBOperation(task);
+    }
+
+    private void deleteArticleFromDB(NewsData data) {
+        DBTask task = new DBTask(dataSource, DBTask.Task.DATABASE_DELETE, data);
+        viewModel.performDBOperation(task);
+    }
+
+    private void fetchOfflineData() {
+        DBTask task = new DBTask(dataSource, DBTask.Task.DATABASE_FETCH_ALL, null);
+        viewModel.performDBOperation(task);
+    }
+
+    @Override
+    protected void onResume() {
+        dataSource.open();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        dataSource.close();
+        super.onPause();
     }
 }

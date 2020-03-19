@@ -6,4 +6,7 @@
     <item
         android:id="@+id/old_to_new"
         android:title="Sort by Oldest" />
+    <item
+        android:id="@+id/offline_articles"
+        android:title="Offline Articles" />
 </menu>

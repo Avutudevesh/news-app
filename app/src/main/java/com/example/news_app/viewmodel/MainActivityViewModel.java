@@ -1,27 +1,35 @@
 package com.example.news_app.viewmodel;
 
+import com.example.news_app.db.DBTask;
+import com.example.news_app.db.NewsDBRepository;
 import com.example.news_app.models.NewsData;
 import com.example.news_app.repository.NewsRepository;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class MainActivityViewModel extends ViewModel {
+public class MainActivityViewModel extends ViewModel implements NewsRepository.CallBack, NewsDBRepository.CallBack {
 
-    private NewsRepository repository = new NewsRepository();
+    private NewsRepository repository = null;
 
-    private LiveData<ArrayList<NewsData>> newsDataLiveData = repository.getNewsDataLiveData();
+    private NewsDBRepository dbRepository = null;
+
+    private MutableLiveData<List<NewsData>> newsDataLiveData = new MutableLiveData<>();
+
+    private MutableLiveData<List<NewsData>> dbNewsLiveData = new MutableLiveData<>();
 
     private MutableLiveData<String> clickedNewsArticle = new MutableLiveData<>();
 
     public void fetchNewsData() {
+        repository = new NewsRepository();
+        repository.setCallback(this);
         repository.execute();
     }
 
-    public LiveData<ArrayList<NewsData>> getNewsDataLiveData() {
+    public LiveData<List<NewsData>> getNewsDataLiveData() {
         return newsDataLiveData;
     }
 
@@ -39,5 +47,25 @@ public class MainActivityViewModel extends ViewModel {
 
     public void sortNewToOld() {
         repository.sortNewToOld();
+    }
+
+    public void performDBOperation(DBTask task) {
+        dbRepository = new NewsDBRepository();
+        dbRepository.setCallBack(this);
+        dbRepository.execute(task);
+    }
+
+    public LiveData<List<NewsData>> getDbNewsLiveData() {
+        return dbNewsLiveData;
+    }
+
+    @Override
+    public void onFetchNewsDataSuccess(List<NewsData> data) {
+        newsDataLiveData.postValue(data);
+    }
+
+    @Override
+    public void onFetchNewsDBData(List<NewsData> data) {
+        dbNewsLiveData.postValue(data);
     }
 }
