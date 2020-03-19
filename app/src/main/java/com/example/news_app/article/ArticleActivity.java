@@ -9,6 +9,7 @@ import android.webkit.WebView;
 
 import com.example.news_app.R;
 
+//Webview activity to show URL of the selected article
 public class ArticleActivity extends AppCompatActivity {
 
     private static final String KEY_ARTICLE_URL_EXTRA = "article-url";

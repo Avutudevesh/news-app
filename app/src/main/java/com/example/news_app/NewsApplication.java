@@ -6,6 +6,7 @@ import com.facebook.stetho.Stetho;
 
 public class NewsApplication extends Application {
     public void onCreate() {
+        //Initialising stetho tool to debug database
         super.onCreate();
         Stetho.initializeWithDefaults(this);
     }

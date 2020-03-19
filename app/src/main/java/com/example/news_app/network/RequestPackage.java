@@ -5,13 +5,13 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+//Helper class to set request parameters to make a network call
 public class RequestPackage {
     private String url;
-    private String method = "GET"; //method is set to GET by default
-    private Map<String, String> params = new HashMap<>();//This will hold any values
+    private String method = "GET";
+    private Map<String, String> params = new HashMap<>();
 
-    //that the server may require
-    // e.g. product_id
+
     public String getUrl() {
         return url;
     }

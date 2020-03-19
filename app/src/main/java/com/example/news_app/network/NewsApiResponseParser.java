@@ -10,8 +10,8 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 
+//Parser for NewsApi Response
 public class NewsApiResponseParser {
 
     private static final String KEY_ARTICLES = "articles";

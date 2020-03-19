@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
 
     private void setUpViewModel() {
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        //Observer for online data changes
         final Observer<List<NewsData>> newsObserver = new Observer<List<NewsData>>() {
             @Override
             public void onChanged(List<NewsData> newsData) {
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
                 viewFlipper.setDisplayedChild(Child.LOADED.ordinal());
             }
         };
+        //Observer for offline data changes
         final Observer<List<NewsData>> offlineNewsObserver = new Observer<List<NewsData>>() {
             @Override
             public void onChanged(List<NewsData> newsData) {
@@ -86,12 +88,14 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
                 }
             }
         };
+        //Observer for click action on news articles
         final Observer<String> clickObserver = new Observer<String>() {
             @Override
             public void onChanged(String url) {
                 startActivity(ArticleActivity.getStartIntent(getApplicationContext(), url));
             }
         };
+        //Observer to notify error while fetching data
         final Observer<Boolean> errorObserver = new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -166,10 +170,10 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
         }
     }
 
-    private void deleteArticleFromDB(NewsData data) {
-        DBTask task = new DBTask(dataSource, DBTask.Task.DATABASE_DELETE, data);
-        viewModel.performDBOperation(task);
-    }
+//    private void deleteArticleFromDB(NewsData data) {
+//        DBTask task = new DBTask(dataSource, DBTask.Task.DATABASE_DELETE, data);
+//        viewModel.performDBOperation(task);
+//    }
 
     private void fetchOfflineData() {
         DBTask task = new DBTask(dataSource, DBTask.Task.DATABASE_FETCH_ALL, null);
@@ -188,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
         super.onPause();
     }
 
+    //Callback action to save article to offline mode
     @Override
     public void onSaveArticleClicked(NewsData data) {
         DBTask task = new DBTask(dataSource, DBTask.Task.DATABASE_ADD, data);
@@ -195,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
         Toast.makeText(this, "Save to offline data.", Toast.LENGTH_LONG).show();
     }
 
+    //Callback to filter articles based on publisher
     @Override
     public void onFilterFromPublisherClicked(NewsData data) {
         startActivity(PublisherActivity.getStartIntent(this, viewModel.getArticlesFromThisPublisher(data), data.getSource().getName()));

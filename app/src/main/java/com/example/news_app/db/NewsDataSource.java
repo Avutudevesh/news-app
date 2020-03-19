@@ -74,7 +74,6 @@ public class NewsDataSource {
             news.add(newsData);
             cursor.moveToNext();
         }
-        // make sure to close the cursor
         cursor.close();
         return news;
     }

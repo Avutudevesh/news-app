@@ -1,6 +1,5 @@
 package com.example.news_app.view;
 
-import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
+//Adapter from home screen recycler view
 public class NewsAdapter extends ListAdapter<NewsData, NewsViewHolder> {
 
     public interface CallBack {

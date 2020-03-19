@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+//This Repository fetches data from the server.
 public class NewsRepository extends AsyncTask<String, Integer, String> {
 
     public interface CallBack {

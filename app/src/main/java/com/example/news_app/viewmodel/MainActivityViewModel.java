@@ -13,6 +13,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+//ViewModel class which holds data required by the mainactivity and notifies the activity using live data when data changes
 public class MainActivityViewModel extends ViewModel implements NewsRepository.CallBack, NewsDBRepository.CallBack {
 
     private NewsRepository repository = null;

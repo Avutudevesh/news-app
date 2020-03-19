@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.UUID;
 
+
+//Model to hold news data
 public class NewsData implements Serializable {
     private String id;
     private NewsSource source;

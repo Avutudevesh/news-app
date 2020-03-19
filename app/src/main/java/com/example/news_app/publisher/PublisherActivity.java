@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+//This Acvtivity shows filtered data of particular publisher
 public class PublisherActivity extends AppCompatActivity implements PublisherAdapter.CallBack {
 
     private static final String KEY_PUBLISHER_ARTICLES = "publisher_articles";

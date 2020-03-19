@@ -15,8 +15,6 @@ public class HttpManager {
 
         if (requestPackage.getMethod().equals("GET")) {
             uri += "?" + requestPackage.getEncodedParams();
-            //As mentioned before, this only executes if the request method has been
-            //set to GET
         }
 
         try {
