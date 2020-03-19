@@ -3,14 +3,20 @@ package com.example.news_app.models;
 
 import java.util.Comparator;
 import java.util.Date;
+import java.util.UUID;
 
 public class NewsData {
+    private String id;
     private NewsSource source;
     private String title;
     private String description;
     private String url;
     private String urlToImage;
     private Date publishedAt;
+
+    public NewsData() {
+        this.id = UUID.randomUUID().toString();
+    }
 
     public NewsSource getSource() {
         return source;
@@ -73,4 +79,12 @@ public class NewsData {
             return newsData2.getPublishedAt().compareTo(newsData1.publishedAt);
         }
     };
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
