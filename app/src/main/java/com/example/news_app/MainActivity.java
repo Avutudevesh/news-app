@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
             @Override
             public void onChanged(List<NewsData> newsData) {
                 adapter.submitList(newsData);
+                adapter.notifyDataSetChanged();
                 viewFlipper.setDisplayedChild(Child.LOADED.ordinal());
             }
         };
@@ -137,9 +138,11 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.old_to_new:
+                viewFlipper.setDisplayedChild(Child.LOADING.ordinal());
                 viewModel.sortOldToNew();
                 return true;
             case R.id.new_to_old:
+                viewFlipper.setDisplayedChild(Child.LOADING.ordinal());
                 viewModel.sortNewToOld();
                 return true;
             case R.id.offline_articles:

@@ -9,11 +9,11 @@ public class NewsListDiffCallback extends DiffUtil.ItemCallback<NewsData> {
 
     @Override
     public boolean areItemsTheSame(@NonNull NewsData oldItem, @NonNull NewsData newItem) {
-        return oldItem == newItem;
+        return oldItem.getId().equals(newItem.getId());
     }
 
     @Override
     public boolean areContentsTheSame(@NonNull NewsData oldItem, @NonNull NewsData newItem) {
-        return oldItem.getTitle().equals(newItem.getTitle());
+        return oldItem.getId().equals(newItem.getId());
     }
 }

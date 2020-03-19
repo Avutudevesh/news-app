@@ -5,6 +5,7 @@ import com.example.news_app.db.NewsDBRepository;
 import com.example.news_app.models.NewsData;
 import com.example.news_app.repository.NewsRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -44,11 +45,19 @@ public class MainActivityViewModel extends ViewModel implements NewsRepository.C
     }
 
     public void sortOldToNew() {
-        repository.sortOldToNew();
+        List<NewsData> list = newsDataLiveData.getValue();
+        if (list != null) {
+            Collections.sort(list, NewsData.publishDateComparator);
+            newsDataLiveData.postValue(list);
+        }
     }
 
     public void sortNewToOld() {
-        repository.sortNewToOld();
+        List<NewsData> list = newsDataLiveData.getValue();
+        if (list != null) {
+            Collections.sort(list, NewsData.publishDateReverseComparator);
+            newsDataLiveData.postValue(list);
+        }
     }
 
     public void performDBOperation(DBTask task) {

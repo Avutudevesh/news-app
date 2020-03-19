@@ -46,19 +46,4 @@ public class NewsRepository extends AsyncTask<String, Integer, String> {
         }
     }
 
-    public void sortOldToNew() {
-//        List<NewsData> list = newsDataLiveData.getValue();
-//        if (list != null) {
-//            Collections.sort(list, NewsData.publishDateComparator);
-//            newsDataLiveData.postValue(list);
-//        }
-    }
-
-    public void sortNewToOld() {
-//        List<NewsData> list = newsDataLiveData.getValue();
-//        if (list != null) {
-//            Collections.sort(list, NewsData.publishDateReverseComparator);
-//            newsDataLiveData.postValue(list);
-//        }
-    }
 }
