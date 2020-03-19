@@ -7,11 +7,26 @@
     android:background="#464646"
     tools:context=".MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/news_list"
+    <ViewFlipper
+        android:id="@+id/view_flipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/loading_view"
+            layout="@layout/view_loading" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/news_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <include
+            android:id="@+id/error_view"
+            layout="@layout/view_error" />
+
+    </ViewFlipper>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

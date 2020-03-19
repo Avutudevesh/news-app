@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:background="#464646"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/error_main_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto_slab_bold"
+        android:gravity="center_horizontal"
+        android:text="Sorry Something Went Wrong"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/error_sub_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto_slab_regular"
+        android:gravity="center_horizontal"
+        android:text="Please try again later"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/retry_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_slab_bold"
+        android:text="Retry"
+        android:background="@android:color/holo_blue_dark"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
+
+</LinearLayout>

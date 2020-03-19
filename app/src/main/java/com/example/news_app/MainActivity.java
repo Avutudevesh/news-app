@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ViewFlipper;
 
 import com.example.news_app.article.ArticleActivity;
 import com.example.news_app.db.DBTask;
@@ -30,15 +33,34 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
     DiffUtil.ItemCallback<NewsData> diffCallback;
     NewsDataSource dataSource;
     private boolean offlineDataShown = false;
+    private ViewFlipper viewFlipper;
+    private Button tryAgainButton;
+
+    private enum Child {
+        LOADING,
+        LOADED,
+        ERROR
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dataSource = new NewsDataSource(this);
         setContentView(R.layout.activity_main);
+        viewFlipper = findViewById(R.id.view_flipper);
+        viewFlipper.setDisplayedChild(Child.LOADING.ordinal());
+        tryAgainButton = findViewById(R.id.retry_button);
         setUpViewModel();
         setUpRecyclerView();
         setUpActionBar();
+        tryAgainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                offlineDataShown = false;
+                invalidateOptionsMenu();
+                viewModel.fetchNewsData();
+            }
+        });
     }
 
     private void setUpViewModel() {
@@ -47,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
             @Override
             public void onChanged(List<NewsData> newsData) {
                 adapter.submitList(newsData);
+                viewFlipper.setDisplayedChild(Child.LOADED.ordinal());
             }
         };
         final Observer<List<NewsData>> offlineNewsObserver = new Observer<List<NewsData>>() {
@@ -54,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
             public void onChanged(List<NewsData> newsData) {
                 if (offlineDataShown) {
                     adapter.submitList(newsData);
+                    viewFlipper.setDisplayedChild(Child.LOADED.ordinal());
                 }
             }
         };
@@ -112,10 +136,12 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
                 return true;
             case R.id.offline_articles:
                 if (offlineDataShown) {
+                    viewFlipper.setDisplayedChild(Child.LOADING.ordinal());
                     viewModel.fetchNewsData();
                     offlineDataShown = false;
                     invalidateOptionsMenu();
                 } else {
+                    viewFlipper.setDisplayedChild(Child.LOADING.ordinal());
                     fetchOfflineData();
                     offlineDataShown = true;
                     invalidateOptionsMenu();

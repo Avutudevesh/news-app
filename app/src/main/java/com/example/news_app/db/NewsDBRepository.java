@@ -9,7 +9,7 @@ import java.util.List;
 public class NewsDBRepository extends AsyncTask<DBTask, Integer, List<NewsData>> {
 
     public interface CallBack {
-        public void onFetchNewsDBData(List<NewsData> data);
+         void onFetchNewsDBData(List<NewsData> data);
     }
 
     private CallBack callBack = null;
