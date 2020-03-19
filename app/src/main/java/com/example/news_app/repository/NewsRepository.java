@@ -16,6 +16,7 @@ public class NewsRepository extends AsyncTask<String, Integer, String> {
 
     public interface CallBack {
         void onFetchNewsDataSuccess(List<NewsData> data);
+        void onFetchDataError();
     }
     private final String BASE_URL = "https://candidate-test-data-moengage.s3.amazonaws.com/Android/news-api-feed/staticResponse.json";
     private CallBack callBack = null;
@@ -40,7 +41,7 @@ public class NewsRepository extends AsyncTask<String, Integer, String> {
             ArrayList<NewsData> newsData = NewsApiResponseParser.parse(jsonObject);
             callBack.onFetchNewsDataSuccess(newsData);
         } catch (Exception e) {
-            callBack.onFetchNewsDataSuccess(new ArrayList<NewsData>());
+            callBack.onFetchDataError();
             e.printStackTrace();
         }
     }

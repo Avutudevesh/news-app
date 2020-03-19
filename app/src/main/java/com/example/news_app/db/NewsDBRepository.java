@@ -10,6 +10,7 @@ public class NewsDBRepository extends AsyncTask<DBTask, Integer, List<NewsData>>
 
     public interface CallBack {
          void onFetchNewsDBData(List<NewsData> data);
+         void onFetchNewsDBError();
     }
 
     private CallBack callBack = null;

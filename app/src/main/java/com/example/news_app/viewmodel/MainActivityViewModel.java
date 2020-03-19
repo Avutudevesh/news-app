@@ -23,6 +23,8 @@ public class MainActivityViewModel extends ViewModel implements NewsRepository.C
 
     private MutableLiveData<String> clickedNewsArticle = new MutableLiveData<>();
 
+    private MutableLiveData<Boolean> errorLiveData = new MutableLiveData<>();
+
     public void fetchNewsData() {
         repository = new NewsRepository();
         repository.setCallback(this);
@@ -65,7 +67,21 @@ public class MainActivityViewModel extends ViewModel implements NewsRepository.C
     }
 
     @Override
+    public void onFetchDataError() {
+        errorLiveData.postValue(true);
+    }
+
+    @Override
     public void onFetchNewsDBData(List<NewsData> data) {
         dbNewsLiveData.postValue(data);
+    }
+
+    @Override
+    public void onFetchNewsDBError() {
+        errorLiveData.postValue(true);
+    }
+
+    public MutableLiveData<Boolean> getErrorLiveData() {
+        return errorLiveData;
     }
 }

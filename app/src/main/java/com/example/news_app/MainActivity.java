@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
         tryAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                viewFlipper.setDisplayedChild(Child.LOADING.ordinal());
                 offlineDataShown = false;
                 invalidateOptionsMenu();
                 viewModel.fetchNewsData();
@@ -87,9 +88,16 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
                 startActivity(ArticleActivity.getStartIntent(getApplicationContext(), url));
             }
         };
+        final Observer<Boolean> errorObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                viewFlipper.setDisplayedChild(Child.ERROR.ordinal());
+            }
+        };
         viewModel.getNewsDataLiveData().observe(this, newsObserver);
         viewModel.getDbNewsLiveData().observe(this, offlineNewsObserver);
         viewModel.getClickedNewsArticleLiveData().observe(this, clickObserver);
+        viewModel.getErrorLiveData().observe(this, errorObserver);
         viewModel.fetchNewsData();
     }
 
