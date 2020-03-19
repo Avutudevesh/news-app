@@ -5,6 +5,7 @@ import com.example.news_app.db.NewsDBRepository;
 import com.example.news_app.models.NewsData;
 import com.example.news_app.repository.NewsRepository;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -110,5 +111,18 @@ public class MainActivityViewModel extends ViewModel implements NewsRepository.C
 
     public MutableLiveData<Boolean> getErrorLiveData() {
         return errorLiveData;
+    }
+
+    public ArrayList<NewsData> getArticlesFromThisPublisher(NewsData data) {
+        List<NewsData> list = newsDataLiveData.getValue();
+        ArrayList<NewsData> resultList = new ArrayList<>();
+        if (list != null) {
+            for (NewsData news : list) {
+                if (news.getSource().getId().equals(data.getSource().getId())) {
+                    resultList.add(news);
+                }
+            }
+        }
+        return resultList;
     }
 }

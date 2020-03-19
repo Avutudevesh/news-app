@@ -1,4 +1,4 @@
-package com.example.news_app.view;
+package com.example.news_app.publisher;
 
 import android.view.View;
 import android.widget.ImageButton;
@@ -9,14 +9,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.news_app.R;
 import com.example.news_app.models.NewsData;
-import com.example.news_app.viewmodel.MainActivityViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-class NewsViewHolder extends RecyclerView.ViewHolder {
+class PublisherViewHolder extends RecyclerView.ViewHolder {
 
-    NewsViewHolder(@NonNull View itemView) {
+    PublisherViewHolder(@NonNull View itemView) {
         super(itemView);
     }
 
@@ -26,17 +25,12 @@ class NewsViewHolder extends RecyclerView.ViewHolder {
     private ImageView newsImage = itemView.findViewById(R.id.headline_image);
     public ImageButton popMenuButton = itemView.findViewById(R.id.pop_menu);
 
-    void bind(final NewsData data, final MainActivityViewModel viewModel) {
+    void bind(NewsData data) {
         source.setText(data.getSource().getName());
         title.setText(data.getTitle());
         publishDate.setText(data.getPublishedAt().toString());
         loadBackgroundImage(data.getUrlToImage());
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewModel.setClickedNewsArticle(data.getUrl());
-            }
-        });
+        popMenuButton.setVisibility(View.GONE);
     }
 
     private void loadBackgroundImage(String url) {

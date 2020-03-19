@@ -1,11 +1,12 @@
 package com.example.news_app.models;
 
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.UUID;
 
-public class NewsData {
+public class NewsData implements Serializable {
     private String id;
     private NewsSource source;
     private String title;

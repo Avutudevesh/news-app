@@ -13,12 +13,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.news_app.article.ArticleActivity;
 import com.example.news_app.db.DBTask;
 import com.example.news_app.db.NewsDataSource;
 import com.example.news_app.models.NewsData;
+import com.example.news_app.publisher.PublisherActivity;
 import com.example.news_app.view.NewsAdapter;
 import com.example.news_app.view.NewsListDiffCallback;
 import com.example.news_app.viewmodel.MainActivityViewModel;
@@ -190,5 +192,11 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.CallB
     public void onSaveArticleClicked(NewsData data) {
         DBTask task = new DBTask(dataSource, DBTask.Task.DATABASE_ADD, data);
         viewModel.performDBOperation(task);
+        Toast.makeText(this, "Save to offline data.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onFilterFromPublisherClicked(NewsData data) {
+        startActivity(PublisherActivity.getStartIntent(this, viewModel.getArticlesFromThisPublisher(data), data.getSource().getName()));
     }
 }
